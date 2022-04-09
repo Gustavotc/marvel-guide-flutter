@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:marvel_guide/controller/login_controller.dart';
-import 'package:marvel_guide/core/app_colors.dart';
-import 'package:marvel_guide/core/app_images.dart';
-import 'package:marvel_guide/repository/login_repository.dart';
-import 'package:marvel_guide/view/login/widgets/signup_text.dart';
-import 'package:marvel_guide/widgets/custom_text_field.dart';
-import 'package:marvel_guide/widgets/rounded_button.dart';
+import 'package:marvel_guide/repository/signup_repository.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+import '../../controller/signup_controller.dart';
+import '../../core/app_colors.dart';
+import '../../core/app_images.dart';
+import '../../widgets/custom_text_field.dart';
+import '../../widgets/rounded_button.dart';
+
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  late LoginController controller;
+class _SignupScreenState extends State<SignupScreen> {
+  late SignupController controller;
 
   bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    controller = LoginController(repository: LoginRepository());
+    controller = SignupController(repository: SignupRepository());
   }
 
   _loginSucces() {
@@ -31,16 +31,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
   _loginError() {
     const snackBar = SnackBar(
-      content: Text('Usuário ou senha incorreto'),
+      content: Text('Dados inválidos'),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  void _handleSignIn() async {
+  void _handleSignUp() async {
     setState(() {
       isLoading = true;
     });
-    if (await controller.login()) {
+    if (await controller.register()) {
       _loginSucces();
     } else {
       _loginError();
@@ -76,12 +76,19 @@ class _LoginScreenState extends State<LoginScreen> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                Image.asset(AppImages.avengers, width: 200, fit: BoxFit.cover),
-                const SizedBox(height: 32),
+                Image.asset(AppImages.signup, width: 200, fit: BoxFit.cover),
+                const SizedBox(height: 16),
                 Form(
                   key: controller.formKey,
                   child: Column(
                     children: <Widget>[
+                      const SizedBox(height: 16),
+                      CustomTextField(
+                        label: 'nome',
+                        onSave: controller.userName,
+                        validator: _passwordValidator,
+                      ),
+                      const SizedBox(height: 16),
                       CustomTextField(
                         label: 'email',
                         onSave: controller.userEmail,
@@ -95,12 +102,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 16),
                       RoundedButton(
-                        text: 'Entrar',
-                        onPress: _handleSignIn,
+                        text: 'Cadastrar',
+                        onPress: _handleSignUp,
                         isLoading: isLoading,
                       ),
                       const SizedBox(height: 16),
-                      const SignUpText()
                     ],
                   ),
                 ),
