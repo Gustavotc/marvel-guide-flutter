@@ -1,8 +1,19 @@
+import 'package:localstorage/localstorage.dart';
 import 'package:marvel_guide/model/user_model.dart';
 
 class LoginRepository {
-  Future<bool> doLogin(UserModel user) async {
-    await Future.delayed(const Duration(seconds: 2));
-    return user.email == 'abc@' && user.password == '123'; 
+  String? doLogin(UserModel user) {
+    final LocalStorage storage = LocalStorage('marvel_app');
+    try {
+      Map<String, dynamic> storagedUser = storage.getItem('user');
+      UserModel res = UserModel.fromMap(storagedUser);
+
+      if (user.email == res.email && user.password == res.password) {
+        return res.name;
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
   }
 }

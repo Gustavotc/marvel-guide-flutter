@@ -3,6 +3,7 @@ import 'package:marvel_guide/controller/login_controller.dart';
 import 'package:marvel_guide/core/app_colors.dart';
 import 'package:marvel_guide/core/app_images.dart';
 import 'package:marvel_guide/repository/login_repository.dart';
+import 'package:marvel_guide/view/home/home_screen.dart';
 import 'package:marvel_guide/view/login/widgets/signup_text.dart';
 import 'package:marvel_guide/widgets/custom_text_field.dart';
 import 'package:marvel_guide/widgets/rounded_button.dart';
@@ -25,8 +26,15 @@ class _LoginScreenState extends State<LoginScreen> {
     controller = LoginController(repository: LoginRepository());
   }
 
-  _loginSucces() {
-    print('SUCESSO');
+  _loginSucces(String userName) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomeScreen(
+          userName: userName,
+        ),
+      ),
+    );
   }
 
   _loginError() {
@@ -40,8 +48,9 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       isLoading = true;
     });
-    if (await controller.login()) {
-      _loginSucces();
+    String? loggedUser = controller.login();
+    if (loggedUser != null) {
+      _loginSucces(loggedUser);
     } else {
       _loginError();
     }
@@ -92,6 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         label: 'senha',
                         onSave: controller.userPassword,
                         validator: _passwordValidator,
+                        password: true,
                       ),
                       const SizedBox(height: 16),
                       RoundedButton(

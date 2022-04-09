@@ -11,22 +11,22 @@ class LoginController {
   final formKey = GlobalKey<FormState>();
   final LoginRepository repository;
 
-  UserModel user = UserModel();
+  UserModel user = UserModel(name: '', email: '', password: '');
 
   void userEmail(String? value) => user.email = value! ;
   void userPassword(String? value) => user.password = value!;
 
-  Future<bool> login() async {
+  String? login() {
     if (!formKey.currentState!.validate()) {
-      return false;
+      return null;
     }
 
     formKey.currentState?.save();
 
     try {
-      return await repository.doLogin(user);
+      return repository.doLogin(user);
     } catch(e) {
-      return false;
+      return null;
     }
   }
 }

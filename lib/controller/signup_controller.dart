@@ -12,13 +12,13 @@ class SignupController {
   final formKey = GlobalKey<FormState>();
   final SignupRepository repository;
 
-  UserModel user = UserModel();
+  UserModel user = UserModel(name: '', email: '', password: '');
 
   void userName(String? value) => user.name = value! ;
   void userEmail(String? value) => user.email = value! ;
   void userPassword(String? value) => user.password = value!;
 
-  Future<bool> register() async {
+  bool register() {
     if (!formKey.currentState!.validate()) {
       return false;
     }
@@ -26,7 +26,7 @@ class SignupController {
     formKey.currentState?.save();
 
     try {
-      return await repository.doRegister(user);
+      return repository.doRegister(user);
     } catch(e) {
       return false;
     }

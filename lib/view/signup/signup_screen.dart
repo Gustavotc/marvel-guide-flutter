@@ -26,7 +26,10 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   _loginSucces() {
-    print('SUCESSO');
+    const snackBar = SnackBar(
+      content: Text('Cadastro realizado com sucesso'),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   _loginError() {
@@ -40,7 +43,7 @@ class _SignupScreenState extends State<SignupScreen> {
     setState(() {
       isLoading = true;
     });
-    if (await controller.register()) {
+    if (controller.register()) {
       _loginSucces();
     } else {
       _loginError();
@@ -99,6 +102,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         label: 'senha',
                         onSave: controller.userPassword,
                         validator: _passwordValidator,
+                        password: true,
                       ),
                       const SizedBox(height: 16),
                       RoundedButton(
