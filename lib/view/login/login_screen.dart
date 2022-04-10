@@ -48,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       isLoading = true;
     });
-    String? loggedUser = controller.login();
+    String? loggedUser = await controller.login();
     if (loggedUser != null) {
       _loginSucces(loggedUser);
     } else {

@@ -16,7 +16,7 @@ class LoginController {
   void userEmail(String? value) => user.email = value! ;
   void userPassword(String? value) => user.password = value!;
 
-  String? login() {
+  Future<String?> login() async {
     if (!formKey.currentState!.validate()) {
       return null;
     }
@@ -24,7 +24,8 @@ class LoginController {
     formKey.currentState?.save();
 
     try {
-      return repository.doLogin(user);
+      var teste = await repository.doLogin(user);
+      return teste;
     } catch(e) {
       return null;
     }
