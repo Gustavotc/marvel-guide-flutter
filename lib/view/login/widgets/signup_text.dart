@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:marvel_guide/route/route.dart' as route;
+
 class SignUpText extends StatelessWidget {
   const SignUpText({Key? key}) : super(key: key);
 
@@ -13,7 +15,7 @@ class SignUpText extends StatelessWidget {
           style: TextStyle(color: Colors.white30),
         ),
         TextButton(
-          onPressed: () => {},
+          onPressed: () => Navigator.pushNamed(context, route.signup),
           child: const Text(
             'Cadastre-se agora!',
             style: TextStyle(color: Colors.white, fontSize: 16),

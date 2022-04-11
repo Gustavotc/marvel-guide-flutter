@@ -72,14 +72,23 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       backgroundColor: AppColors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
               children: [
-                Image.asset(AppImages.signup, width: 200, fit: BoxFit.cover),
+                Image.asset(
+                  AppImages.signup,
+                  width: 200,
+                  fit: BoxFit.cover,
+                ),
                 const SizedBox(height: 16),
                 Form(
                   key: controller.formKey,

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:marvel_guide/core/app_colors.dart';
 import 'package:marvel_guide/view/about/about_screen.dart';
-import 'package:marvel_guide/view/signup/signup_screen.dart';
-import 'package:marvel_guide/view/splash/splash_screen.dart';
 
 import 'app_text.dart';
+import '../route/route.dart' as route;
 
 class AppWidget extends StatelessWidget {
   const AppWidget({Key? key}) : super(key: key);
@@ -22,6 +21,8 @@ class AppWidget extends StatelessWidget {
         scaffoldBackgroundColor: AppColors.black,
         textTheme: AppText.generateTextTheme(),
       ),
+      onGenerateRoute: route.controller,
+      initialRoute: route.splash,
     );
   }
 }
