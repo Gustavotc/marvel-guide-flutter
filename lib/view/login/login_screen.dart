@@ -3,10 +3,10 @@ import 'package:marvel_guide/controller/login_controller.dart';
 import 'package:marvel_guide/core/app_colors.dart';
 import 'package:marvel_guide/core/app_images.dart';
 import 'package:marvel_guide/repository/login_repository.dart';
-import 'package:marvel_guide/view/home/home_screen.dart';
 import 'package:marvel_guide/view/login/widgets/signup_text.dart';
 import 'package:marvel_guide/widgets/custom_text_field.dart';
 import 'package:marvel_guide/widgets/rounded_button.dart';
+import 'package:marvel_guide/route/route.dart' as route;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -27,14 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   _loginSucces(String userName) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => HomeScreen(
-          userName: userName,
-        ),
-      ),
-    );
+    Navigator.popAndPushNamed(context, route.home);
   }
 
   _loginError() {

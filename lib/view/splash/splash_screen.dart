@@ -4,7 +4,6 @@ import 'package:marvel_guide/repository/splash_repository.dart';
 import '../../controller/splash_controller.dart';
 import '../../core/app_images.dart';
 import '../../core/app_colors.dart';
-import '../login/login_screen.dart';
 
 import 'package:marvel_guide/route/route.dart' as route;
 
@@ -21,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
   _showNextScreen() async {
     if (await controller.checkLogin()) {
       await Future.delayed(const Duration(seconds: 1));
-      Navigator.popAndPushNamed(context, route.about);
+      Navigator.popAndPushNamed(context, route.home);
     } else {
       Navigator.popAndPushNamed(context, route.login);
     }
