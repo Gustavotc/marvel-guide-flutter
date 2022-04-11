@@ -24,8 +24,7 @@ class LoginController {
     formKey.currentState?.save();
 
     try {
-      var teste = await repository.doLogin(user);
-      return teste;
+      return await repository.doLogin(user);
     } catch(e) {
       return null;
     }

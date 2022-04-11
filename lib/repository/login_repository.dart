@@ -14,6 +14,7 @@ class LoginRepository {
       UserModel res = UserModel.fromMap(storagedUser);
 
       if (user.email == res.email && user.password == res.password) {
+        storage.setItem('logged', true);
         return res.name;
       }
     } catch (e) {
