@@ -4,8 +4,8 @@ import 'package:marvel_guide/repository/signup_repository.dart';
 import '../../controller/signup_controller.dart';
 import '../../core/app_colors.dart';
 import '../../core/app_images.dart';
-import '../../widgets/custom_text_field.dart';
-import '../../widgets/rounded_button.dart';
+import '../widgets/custom_text_field.dart';
+import '../widgets/rounded_button.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);

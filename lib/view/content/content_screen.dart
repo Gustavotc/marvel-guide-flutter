@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:marvel_guide/view/widgets/custom_bottom_navigation_bar.dart';
 
-import '../../core/app_colors.dart';
 import '../about/about_screen.dart';
 import '../home/home_screen.dart';
 
@@ -34,32 +34,10 @@ class _ContentScreenState extends State<ContentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.black,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Heróis',
-                backgroundColor: AppColors.black),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.menu_book_sharp),
-              label: 'Quadrinhos',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.search_rounded),
-              label: 'Buscar',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.info_outline),
-              label: 'Info',
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: AppColors.red,
-          unselectedItemColor: Colors.white70,
-          onTap: _onItemTapped,
-        ),
-        body: _widgetOptions.elementAt(_selectedIndex));
+      bottomNavigationBar: CustomBottomNavigationBar(
+        onItemTapped: _onItemTapped,
+      ),
+      body: _widgetOptions.elementAt(_selectedIndex),
+    );
   }
 }

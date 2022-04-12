@@ -3,6 +3,9 @@ import 'package:marvel_guide/controller/home_controller.dart';
 import 'package:marvel_guide/core/app_colors.dart';
 import 'package:marvel_guide/repository/home_repository.dart';
 import 'package:marvel_guide/route/route.dart' as route;
+import 'package:marvel_guide/view/home/widgets/custom_progress_indicator.dart';
+import 'package:marvel_guide/view/home/widgets/hero_avatar.dart';
+import 'package:marvel_guide/view/home/widgets/hero_name.dart';
 import 'package:marvel_guide/view/home/widgets/user_header.dart';
 
 import '../../model/hero_model.dart';
@@ -45,7 +48,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    TextTheme theme = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Heróis'),
@@ -56,42 +58,33 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             UserHeader(username: _username, logout: _handleLogout),
             FutureBuilder(
-                future: _fetchHeroes(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done &&
-                      snapshot.hasData) {
-                    List<HeroModel> data = snapshot.data as List<HeroModel>;
-                    return Expanded(
-                      child: ListView.builder(
-                          itemCount: data.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  CircleAvatar(
-                                    radius: 40,
-                                    backgroundColor: AppColors.darkRed,
-                                    backgroundImage: NetworkImage(
-                                        '${data[index].imageUrl}/standard_medium.jpg'),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: Text(
-                                      data[index].name,
-                                      style: theme.bodyLarge,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          }),
-                    );
-                  } else {
-                    return const CircularProgressIndicator();
-                  }
-                }),
+              future: _fetchHeroes(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done &&
+                    snapshot.hasData) {
+                  List<HeroModel> data = snapshot.data as List<HeroModel>;
+                  return Expanded(
+                    child: ListView.builder(
+                      itemCount: data.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              HeroAvatar(imagePath: data[index].imageUrl),
+                              HeroName(name: data[index].name),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                } else {
+                  return const CustomProgressIndicator();
+                }
+              },
+            ),
           ],
         ),
       ),

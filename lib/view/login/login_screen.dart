@@ -4,9 +4,10 @@ import 'package:marvel_guide/core/app_colors.dart';
 import 'package:marvel_guide/core/app_images.dart';
 import 'package:marvel_guide/repository/login_repository.dart';
 import 'package:marvel_guide/view/login/widgets/signup_text.dart';
-import 'package:marvel_guide/widgets/custom_text_field.dart';
-import 'package:marvel_guide/widgets/rounded_button.dart';
 import 'package:marvel_guide/route/route.dart' as route;
+
+import '../widgets/custom_text_field.dart';
+import '../widgets/rounded_button.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
