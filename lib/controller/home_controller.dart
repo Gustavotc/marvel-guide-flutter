@@ -1,3 +1,4 @@
+import '../model/hero_model.dart';
 import '../repository/home_repository.dart';
 
 class HomeController {
@@ -10,16 +11,20 @@ class HomeController {
   Future<String> getUserName() async {
     try {
       return await repository.fetchUsername();
-    } catch(e) {
+    } catch (e) {
       return 'Fã da Marvel';
     }
   }
 
-  Future<bool>logout() async {
+  Future<bool> logout() async {
     try {
       return await repository.doLogout();
     } catch (e) {
       return false;
     }
+  }
+
+  Future<List<HeroModel>> fetchHeroes() async {
+    return await repository.fetchHeroes();
   }
 }
