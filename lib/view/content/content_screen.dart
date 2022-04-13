@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:marvel_guide/view/search/search_screen.dart';
 import 'package:marvel_guide/view/widgets/custom_bottom_navigation_bar.dart';
 
 import '../about/about_screen.dart';
@@ -19,9 +20,7 @@ class _ContentScreenState extends State<ContentScreen> {
     Text(
       'Quadrinhos',
     ),
-    Text(
-      'Buscar',
-    ),
+    SearchScreen(),
     AboutScreen()
   ];
 

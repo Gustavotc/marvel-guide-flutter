@@ -11,7 +11,7 @@ class MarvelApi {
 
   var client = http.Client();
 
-  Future<List<dynamic>> getHeroes() async {
+  Future<List<dynamic>> getHeroes({String? name}) async {
     String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
     String rawParams = timestamp + privateKey + publicKey;
     String md5 = Converter.textToMd5(rawParams);
@@ -21,6 +21,10 @@ class MarvelApi {
       'apikey': publicKey,
       'hash': md5,
     };
+
+    if(name != null) {
+      params['nameStartsWith'] = name;
+    }
 
     var endpoint = Uri.https(baseUrl, '/v1/public/characters', params);
 

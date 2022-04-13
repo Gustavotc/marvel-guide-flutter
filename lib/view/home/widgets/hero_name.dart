@@ -9,9 +9,11 @@ class HeroName extends StatelessWidget {
     TextTheme theme = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.only(left: 8.0),
-      child: Text(
-        name,
-        style: theme.bodyLarge,
+      child: Expanded(
+        child: Text(
+          name,
+          style: theme.bodyLarge,
+        ),
       ),
     );
   }

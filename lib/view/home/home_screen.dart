@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:marvel_guide/controller/home_controller.dart';
-import 'package:marvel_guide/core/app_colors.dart';
 import 'package:marvel_guide/repository/home_repository.dart';
 import 'package:marvel_guide/route/route.dart' as route;
 import 'package:marvel_guide/view/home/widgets/custom_progress_indicator.dart';
-import 'package:marvel_guide/view/home/widgets/hero_avatar.dart';
-import 'package:marvel_guide/view/home/widgets/hero_name.dart';
+import 'package:marvel_guide/view/home/widgets/hero_card.dart';
 import 'package:marvel_guide/view/home/widgets/user_header.dart';
 
 import '../../model/hero_model.dart';
@@ -67,15 +65,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: ListView.builder(
                       itemCount: data.length,
                       itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              HeroAvatar(imagePath: data[index].imageUrl),
-                              HeroName(name: data[index].name),
-                            ],
-                          ),
+                        return HeroCard(
+                          name: data[index].name,
+                          imagePath: data[index].imageUrl,
                         );
                       },
                     ),
