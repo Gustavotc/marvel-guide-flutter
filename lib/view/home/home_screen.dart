@@ -73,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   );
                 } else {
-                  return const CustomProgressIndicator();
+                  return const Expanded(child: CustomProgressIndicator());
                 }
               },
             ),

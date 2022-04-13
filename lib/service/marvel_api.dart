@@ -42,4 +42,32 @@ class MarvelApi {
 
     return [];
   }
+
+  Future<List<dynamic>> getComics() async {
+    String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+    String rawParams = timestamp + privateKey + publicKey;
+    String md5 = Converter.textToMd5(rawParams);
+
+    var params = {
+      'ts': timestamp,
+      'apikey': publicKey,
+      'hash': md5,
+    };
+
+    var endpoint = Uri.https(baseUrl, '/v1/public/comics', params);
+
+    try {
+      var response = await client.get(endpoint);
+      if (response.statusCode == 200) {
+        var decodedJson = json.decode(response.body);
+        var comicsList = decodedJson['data']['results'] as List<dynamic>;
+
+        return comicsList;
+      }
+    } catch (e) {
+      return [];
+    }
+
+    return [];
+  }
 }

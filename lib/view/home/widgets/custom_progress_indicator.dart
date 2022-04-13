@@ -6,12 +6,10 @@ class CustomProgressIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Flexible(
-      child: Center(
-        child: CircularProgressIndicator(
-          strokeWidth: 2,
-          color: AppColors.darkRed,
-        ),
+    return const Center(
+      child: CircularProgressIndicator(
+        strokeWidth: 2,
+        color: AppColors.darkRed,
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:marvel_guide/view/comics/comics_screen.dart';
 import 'package:marvel_guide/view/search/search_screen.dart';
 import 'package:marvel_guide/view/widgets/custom_bottom_navigation_bar.dart';
 
@@ -17,9 +18,7 @@ class _ContentScreenState extends State<ContentScreen> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
-    Text(
-      'Quadrinhos',
-    ),
+    ComicsScreen(),
     SearchScreen(),
     AboutScreen()
   ];
