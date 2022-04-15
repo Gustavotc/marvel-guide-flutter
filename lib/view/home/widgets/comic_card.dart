@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:marvel_guide/core/app_colors.dart';
 
 class ComicCard extends StatelessWidget {
   final String title;

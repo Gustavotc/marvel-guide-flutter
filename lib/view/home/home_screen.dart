@@ -17,6 +17,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late HomeController controller;
+  late ScrollController _scrollController;
 
   String _username = '';
 
@@ -33,15 +34,19 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Future<List<HeroModel>> _fetchHeroes() async {
-    return await controller.fetchHeroes();
-  }
-
   @override
   void initState() {
     super.initState();
     controller = HomeController(repository: HomeRepository());
     _fetchUsername();
+    _scrollController = controller.scrollController;
+    controller.scrollController.addListener(() {
+      if (_scrollController.position.pixels >=
+          _scrollController.position.maxScrollExtent) {
+        print('BUSCAR MAIS');
+        // _fetchHeroes();
+      }
+    });
   }
 
   @override
@@ -55,14 +60,15 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             UserHeader(username: _username, logout: _handleLogout),
-            FutureBuilder(
-              future: _fetchHeroes(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done &&
-                    snapshot.hasData) {
-                  List<HeroModel> data = snapshot.data as List<HeroModel>;
-                  return Expanded(
-                    child: ListView.builder(
+            Flexible(
+              child: FutureBuilder(
+                future: controller.fetchHeroes(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done &&
+                      snapshot.hasData) {
+                    List<HeroModel> data = snapshot.data as List<HeroModel>;
+                    return ListView.builder(
+                      controller: controller.scrollController,
                       itemCount: data.length,
                       itemBuilder: (context, index) {
                         return HeroCard(
@@ -70,12 +76,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           imagePath: data[index].imageUrl,
                         );
                       },
-                    ),
-                  );
-                } else {
-                  return const Expanded(child: CustomProgressIndicator());
-                }
-              },
+                    );
+                  } else {
+                    return const CustomProgressIndicator();
+                  }
+                },
+              ),
             ),
           ],
         ),

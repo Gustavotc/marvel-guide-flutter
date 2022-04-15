@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 import '../model/hero_model.dart';
 import '../repository/home_repository.dart';
 
@@ -7,6 +9,7 @@ class HomeController {
   });
 
   final HomeRepository repository;
+  final ScrollController scrollController = ScrollController();
 
   Future<String> getUserName() async {
     try {
