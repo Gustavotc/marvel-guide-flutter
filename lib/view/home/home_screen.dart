@@ -6,8 +6,6 @@ import 'package:marvel_guide/view/home/widgets/custom_progress_indicator.dart';
 import 'package:marvel_guide/view/home/widgets/hero_card.dart';
 import 'package:marvel_guide/view/home/widgets/user_header.dart';
 
-import '../../model/hero_model.dart';
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -19,6 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late HomeController controller;
   late ScrollController _scrollController;
 
+  final loading = ValueNotifier(true);
   String _username = '';
 
   _fetchUsername() async {
@@ -34,19 +33,27 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  _fetchHeroes() async {
+    loading.value = true;
+    await controller.fetchHeroes();
+    loading.value = false;
+  }
+
+  _handleInfiniteScrolling() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent) {
+      _fetchHeroes();
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     controller = HomeController(repository: HomeRepository());
     _fetchUsername();
-    controller.fetchHeroes();
+    _fetchHeroes();
     _scrollController = controller.scrollController;
-    controller.scrollController.addListener(() {
-      if (_scrollController.position.pixels >=
-          _scrollController.position.maxScrollExtent) {
-        controller.fetchHeroes();
-      }
-    });
+    controller.scrollController.addListener(_handleInfiniteScrolling);
   }
 
   @override
@@ -64,16 +71,23 @@ class _HomeScreenState extends State<HomeScreen> {
               child: AnimatedBuilder(
                 animation: controller,
                 builder: (context, snapshot) {
-                  return ListView.builder(
-                    controller: controller.scrollController,
-                    itemCount: controller.heroes.length,
-                    itemBuilder: (context, index) {
-                      final hero = controller.heroes[index];
-                      return HeroCard(
-                        name: hero.name,
-                        imagePath: hero.imageUrl,
-                      );
-                    },
+                  return Stack(
+                    children: [
+                      ListView.builder(
+                        controller: controller.scrollController,
+                        itemCount: controller.heroes.length,
+                        itemBuilder: (context, index) {
+                          final hero = controller.heroes[index];
+                          return HeroCard(
+                            name: hero.name,
+                            imagePath: hero.imageUrl,
+                          );
+                        },
+                      ),
+                      CustomProgressIndicator(
+                        loading: loading,
+                      ),
+                    ],
                   );
                 },
               ),

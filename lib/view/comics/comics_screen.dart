@@ -51,7 +51,8 @@ class _ComicsScreenState extends State<ComicsScreen> {
                 ],
               );
             } else {
-              return const CustomProgressIndicator();
+              return Container();
+              // return const CustomProgressIndicator();
             }
           },
         ),
