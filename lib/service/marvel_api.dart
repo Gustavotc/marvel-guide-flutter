@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:marvel_guide/utils/converter.dart';
@@ -11,7 +12,7 @@ class MarvelApi {
 
   var client = http.Client();
 
-  Future<dynamic> getHeroes({String? name, int offset=0}) async {
+  Future<dynamic> getHeroes({String? name, int offset = 0}) async {
     String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
     String rawParams = timestamp + privateKey + publicKey;
     String md5 = Converter.textToMd5(rawParams);
@@ -23,7 +24,7 @@ class MarvelApi {
       'offset': offset.toString(),
     };
 
-    if(name != null) {
+    if (name != null) {
       params['nameStartsWith'] = name;
     }
 
@@ -33,7 +34,7 @@ class MarvelApi {
       var response = await client.get(endpoint);
       if (response.statusCode == 200) {
         var decodedJson = json.decode(response.body);
-       
+
         return decodedJson['data'];
       }
     } catch (e) {
@@ -43,7 +44,7 @@ class MarvelApi {
     return [];
   }
 
-  Future<List<dynamic>> getComics() async {
+  Future<dynamic> getComics({offset = 0}) async {
     String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
     String rawParams = timestamp + privateKey + publicKey;
     String md5 = Converter.textToMd5(rawParams);
@@ -52,6 +53,8 @@ class MarvelApi {
       'ts': timestamp,
       'apikey': publicKey,
       'hash': md5,
+      'offset': offset.toString(),
+      'limit': 21.toString(),
     };
 
     var endpoint = Uri.https(baseUrl, '/v1/public/comics', params);
@@ -60,12 +63,10 @@ class MarvelApi {
       var response = await client.get(endpoint);
       if (response.statusCode == 200) {
         var decodedJson = json.decode(response.body);
-        var comicsList = decodedJson['data']['results'] as List<dynamic>;
-
-        return comicsList;
+        return decodedJson['data'];
       }
     } catch (e) {
-      return [];
+      return []; // RETORNAR NULL
     }
 
     return [];

@@ -15,15 +15,30 @@ class ComicsScreen extends StatefulWidget {
 
 class _ComicsScreenState extends State<ComicsScreen> {
   late ComicsController controller;
+  late ScrollController _scrollController;
+
+  final loading = ValueNotifier(true);
 
   @override
   void initState() {
     super.initState();
     controller = ComicsController(repository: ComicsRepository());
+    _fetchComics();
+    _scrollController = controller.scrollController;
+    controller.scrollController.addListener(_handleInfiniteScrolling);
   }
 
   _fetchComics() async {
-    return await controller.fetchComics();
+    loading.value = true;
+    await controller.fetchComics();
+    loading.value = false;
+  }
+
+  _handleInfiniteScrolling() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent) {
+      _fetchComics();
+    }
   }
 
   @override
@@ -34,35 +49,36 @@ class _ComicsScreenState extends State<ComicsScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: FutureBuilder(
-          future: _fetchComics(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done &&
-                snapshot.hasData) {
-              List<ComicModel> comics = snapshot.data as List<ComicModel>;
-              return GridView.count(
-                childAspectRatio: 9/16,
-                crossAxisCount: 3,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 8,
-                children: <Widget>[
-                  for (var comic in comics)
-                    ComicCard(title: comic.title, imagePath: comic.imageUrl)
+        child: AnimatedBuilder(
+            animation: controller,
+            builder: (context, snapshot) {
+              return Stack(
+                children: [
+                  (controller.comics.isEmpty)
+                      ? Container()
+                      : GridView.builder(
+                          controller: _scrollController,
+                          itemCount: controller.comics.length,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            childAspectRatio: 9 / 16,
+                            crossAxisCount: 3,
+                            mainAxisSpacing: 16,
+                            crossAxisSpacing: 8,
+                          ),
+                          itemBuilder: (context, index) {
+                            final comic = controller.comics[index];
+                            return ComicCard(
+                                title: comic.title, imagePath: comic.imageUrl);
+                          },
+                        ),
+                  CustomProgressIndicator(
+                    loading: loading,
+                  )
                 ],
               );
-            } else {
-              return Container();
-              // return const CustomProgressIndicator();
-            }
-          },
-        ),
+            }),
       ),
     );
   }
 }
-// ListView.builder(
-            //   itemCount: comics.length,
-            //   itemBuilder: (context, index) {
-            //     return Text(comics[index].title);
-            //   },
-            // );
