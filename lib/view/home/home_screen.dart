@@ -39,12 +39,12 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     controller = HomeController(repository: HomeRepository());
     _fetchUsername();
+    controller.fetchHeroes();
     _scrollController = controller.scrollController;
     controller.scrollController.addListener(() {
       if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent) {
-        print('BUSCAR MAIS');
-        // _fetchHeroes();
+        controller.fetchHeroes();
       }
     });
   }
@@ -61,25 +61,20 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             UserHeader(username: _username, logout: _handleLogout),
             Flexible(
-              child: FutureBuilder(
-                future: controller.fetchHeroes(),
+              child: AnimatedBuilder(
+                animation: controller,
                 builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done &&
-                      snapshot.hasData) {
-                    List<HeroModel> data = snapshot.data as List<HeroModel>;
-                    return ListView.builder(
-                      controller: controller.scrollController,
-                      itemCount: data.length,
-                      itemBuilder: (context, index) {
-                        return HeroCard(
-                          name: data[index].name,
-                          imagePath: data[index].imageUrl,
-                        );
-                      },
-                    );
-                  } else {
-                    return const CustomProgressIndicator();
-                  }
+                  return ListView.builder(
+                    controller: controller.scrollController,
+                    itemCount: controller.heroes.length,
+                    itemBuilder: (context, index) {
+                      final hero = controller.heroes[index];
+                      return HeroCard(
+                        name: hero.name,
+                        imagePath: hero.imageUrl,
+                      );
+                    },
+                  );
                 },
               ),
             ),

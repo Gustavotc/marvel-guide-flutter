@@ -11,7 +11,7 @@ class MarvelApi {
 
   var client = http.Client();
 
-  Future<List<dynamic>> getHeroes({String? name}) async {
+  Future<dynamic> getHeroes({String? name, int offset=0}) async {
     String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
     String rawParams = timestamp + privateKey + publicKey;
     String md5 = Converter.textToMd5(rawParams);
@@ -20,6 +20,7 @@ class MarvelApi {
       'ts': timestamp,
       'apikey': publicKey,
       'hash': md5,
+      'offset': offset.toString(),
     };
 
     if(name != null) {
@@ -32,12 +33,11 @@ class MarvelApi {
       var response = await client.get(endpoint);
       if (response.statusCode == 200) {
         var decodedJson = json.decode(response.body);
-        var heroesList = decodedJson['data']['results'] as List<dynamic>;
-
-        return heroesList;
+       
+        return decodedJson['data'];
       }
     } catch (e) {
-      return [];
+      return []; // RETORNAR NULL
     }
 
     return [];
