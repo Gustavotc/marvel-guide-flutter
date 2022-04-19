@@ -5,6 +5,7 @@ import 'package:marvel_guide/route/route.dart' as route;
 import 'package:marvel_guide/view/home/widgets/custom_progress_indicator.dart';
 import 'package:marvel_guide/view/home/widgets/hero_card.dart';
 import 'package:marvel_guide/view/home/widgets/user_header.dart';
+import 'package:marvel_guide/view/widgets/heroes_list.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -68,28 +69,11 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             UserHeader(username: _username, logout: _handleLogout),
             Flexible(
-              child: AnimatedBuilder(
+              child: HeroesList(
                 animation: controller,
-                builder: (context, snapshot) {
-                  return Stack(
-                    children: [
-                      ListView.builder(
-                        controller: controller.scrollController,
-                        itemCount: controller.heroes.length,
-                        itemBuilder: (context, index) {
-                          final hero = controller.heroes[index];
-                          return HeroCard(
-                            name: hero.name,
-                            imagePath: hero.imageUrl,
-                          );
-                        },
-                      ),
-                      CustomProgressIndicator(
-                        loading: loading,
-                      ),
-                    ],
-                  );
-                },
+                scrollController: _scrollController,
+                loading: loading,
+                heroes: controller.heroes,
               ),
             ),
           ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:marvel_guide/repository/search_repository.dart';
 import 'package:marvel_guide/view/home/widgets/hero_card.dart';
 import 'package:marvel_guide/view/search/widgets/search_bar.dart';
+import 'package:marvel_guide/view/widgets/heroes_list.dart';
 
 import '../../controller/search_controller.dart';
 import '../../model/hero_model.dart';
@@ -16,18 +17,33 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   List<HeroModel> heroesResult = [];
   late SearchController controller;
+  late ScrollController _scrollController;
+
+  final loading = ValueNotifier(true);
+  String searchValue = '';
 
   _fetchHero(String name) async {
-    List<HeroModel> response = await controller.fetchHeroes(name);
     setState(() {
-      heroesResult = response;
+      searchValue = name;
     });
+    loading.value = true;
+    await controller.fetchHeroes(name);
+    loading.value = false;
+  }
+
+  _handleInfiniteScrolling() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent) {
+      _fetchHero(searchValue);
+    }
   }
 
   @override
   void initState() {
     super.initState();
     controller = SearchController(repository: SearchRepository());
+    _scrollController = controller.scrollController;
+    controller.scrollController.addListener(_handleInfiniteScrolling);
   }
 
   @override
@@ -39,19 +55,16 @@ class _SearchScreenState extends State<SearchScreen> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
-          children: <Widget> [
+          children: <Widget>[
             SearchBar(
               searchFn: _fetchHero,
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: heroesResult.length,
-                itemBuilder: (context, index) {
-                  return HeroCard(
-                    name: heroesResult[index].name,
-                    imagePath: heroesResult[index].imageUrl,
-                  );
-                },
+              child: HeroesList(
+                animation: controller,
+                scrollController: _scrollController,
+                loading: loading,
+                heroes: controller.heroes,
               ),
             ),
           ],

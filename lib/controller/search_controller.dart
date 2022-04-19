@@ -1,13 +1,23 @@
+import 'package:flutter/material.dart';
+
 import '../model/hero_model.dart';
 import '../repository/search_repository.dart';
 
-class SearchController {
+class SearchController with ChangeNotifier {
   final SearchRepository repository;
+  final ScrollController scrollController = ScrollController();
+
   SearchController({
     required this.repository,
   });
 
-   Future<List<HeroModel>> fetchHeroes(String name) async {
-    return await repository.doSearch(name);
+  List<HeroModel> heroes = [];
+
+   Future<void> fetchHeroes(String name) async {
+    var heroesJson = await repository.doSearch(name);
+    for (var hero in heroesJson) {
+      heroes.add(HeroModel.fromMap(hero));
+    }
+    notifyListeners();
   }
 }
