@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:marvel_guide/repository/search_repository.dart';
-import 'package:marvel_guide/view/home/widgets/hero_card.dart';
 import 'package:marvel_guide/view/search/widgets/search_bar.dart';
 import 'package:marvel_guide/view/widgets/heroes_list.dart';
 
@@ -19,7 +18,7 @@ class _SearchScreenState extends State<SearchScreen> {
   late SearchController controller;
   late ScrollController _scrollController;
 
-  final loading = ValueNotifier(true);
+  final loading = ValueNotifier(false);
   String searchValue = '';
 
   _fetchHero(String name) async {

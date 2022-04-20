@@ -25,6 +25,7 @@ class HeroesList extends StatelessWidget {
       animation: animation,
       builder: (context, snapshot) {
         return Stack(
+          alignment: Alignment.center,
           children: [
             ListView.builder(
               controller: scrollController,

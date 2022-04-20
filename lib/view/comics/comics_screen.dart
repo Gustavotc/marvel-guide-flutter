@@ -4,7 +4,6 @@ import 'package:marvel_guide/view/home/widgets/comic_card.dart';
 import 'package:marvel_guide/view/home/widgets/custom_progress_indicator.dart';
 
 import '../../controller/comics_controller.dart';
-import '../../model/comic_model.dart';
 
 class ComicsScreen extends StatefulWidget {
   const ComicsScreen({Key? key}) : super(key: key);
@@ -53,6 +52,7 @@ class _ComicsScreenState extends State<ComicsScreen> {
             animation: controller,
             builder: (context, snapshot) {
               return Stack(
+                alignment: Alignment.center,
                 children: [
                   (controller.comics.isEmpty)
                       ? Container()

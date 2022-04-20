@@ -13,15 +13,11 @@ class CustomProgressIndicator extends StatelessWidget {
       valueListenable: loading,
       builder: (context, bool isLoading, _) {
         return (isLoading)
-            ? Container(
-                width: double.infinity,
-                height: double.infinity,
-                color: Colors.black38,
-                child: const Center(
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: Colors.white,
-                  ),
+            ? const Positioned(
+                bottom: 30,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: Colors.white,
                 ),
               )
             : Container();
