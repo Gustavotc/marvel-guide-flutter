@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:marvel_guide/view/home/widgets/hero_avatar.dart';
+import 'package:marvel_guide/view/home/widgets/hero_description.dart';
 import 'package:marvel_guide/view/home/widgets/hero_name.dart';
+
+import '../../../core/app_colors.dart';
 
 class HeroCard extends StatelessWidget {
   final String name;
+  final String description;
   final String imagePath;
 
   const HeroCard({
     Key? key,
     required this.name,
     required this.imagePath,
+    required this.description,
   }) : super(key: key);
 
   @override
@@ -29,7 +34,29 @@ class HeroCard extends StatelessWidget {
         child: Row(
           children: [
             HeroAvatar(imagePath: imagePath),
-            HeroName(name: name),
+            Expanded(
+              child: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      AppColors.darkRed,
+                      AppColors.red,
+                    ],
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      HeroName(name: name),
+                      HeroDescription(text: description),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
