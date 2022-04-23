@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:marvel_guide/view/about/widgets/shimmer_avatar.dart';
 
 import '../../../core/app_colors.dart';
 
@@ -9,10 +10,17 @@ class Avatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CircleAvatar(
-      radius: 40,
-      backgroundColor: AppColors.black,
-      backgroundImage: NetworkImage('https://github.com/gustavotc.png'),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(50),
+      child: Image.network(
+        width: 100,
+        height: 100,
+        'https://github.com/gustavotc.png',
+        loadingBuilder: (context, child, loadingProgress) {
+          if (loadingProgress == null) return child;
+          return const ShimmerAvatar();
+        },
+      ),
     );
   }
 }

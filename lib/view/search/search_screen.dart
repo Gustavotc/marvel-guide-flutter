@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marvel_guide/repository/search_repository.dart';
+import 'package:marvel_guide/view/home/widgets/shimmer_heroes_list.dart';
 import 'package:marvel_guide/view/search/widgets/search_bar.dart';
 import 'package:marvel_guide/view/widgets/heroes_list.dart';
 
@@ -16,28 +17,45 @@ class _SearchScreenState extends State<SearchScreen> {
   late SearchController controller;
   late ScrollController _scrollController;
 
-  final loading = ValueNotifier(false);
+  final _isLoading = ValueNotifier(false);
   String searchValue = '';
   bool _noMoreResults = false;
+  bool _showShimmerLoading = false;
+  bool _noResults = false;
 
   _fetchHero(String name) async {
     if (searchValue != name) {
       searchValue = name;
       controller.resetSearch();
       _noMoreResults = false;
+      setState(() {
+        _showShimmerLoading = true;
+        _noResults = false;
+      });
     }
 
-    if (!_noMoreResults) {
-      loading.value = true;
-      if (!await controller.fetchHeroes(name)) {
+    if (!_noMoreResults && searchValue.isNotEmpty) {
+      _isLoading.value = true;
+
+      if (!await controller.fetchHeroes(name) && controller.heroes.isNotEmpty) {
         const snackBar = SnackBar(
           content: Text('Não há mais resultados'),
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
         _noMoreResults = true;
       }
-      loading.value = false;
+
+      if (controller.heroes.isEmpty) {
+        setState(() {
+          _noResults = true;
+        });
+        print('SEM RESULTADOS');
+      }
     }
+    _isLoading.value = false;
+    setState(() {
+      _showShimmerLoading = false;
+    });
   }
 
   _handleInfiniteScrolling() {
@@ -68,17 +86,21 @@ class _SearchScreenState extends State<SearchScreen> {
             SearchBar(
               searchFn: _fetchHero,
             ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: HeroesList(
-                  animation: controller,
-                  scrollController: _scrollController,
-                  loading: loading,
-                  heroes: controller.heroes,
-                ),
-              ),
-            ),
+            _noResults
+                ? const Expanded(child: Center(child: Text('Sem resultados')))
+                : _showShimmerLoading
+                    ? const ShimmerHeroesList()
+                    : Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: HeroesList(
+                            animation: controller,
+                            scrollController: _scrollController,
+                            loading: _isLoading,
+                            heroes: controller.heroes,
+                          ),
+                        ),
+                      ),
           ],
         ),
       ),
