@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:marvel_guide/core/app_colors.dart';
+import 'package:marvel_guide/view/home/widgets/shimmer_hero_avatar.dart';
 
 class HeroAvatar extends StatelessWidget {
   final String imagePath;
@@ -12,6 +14,10 @@ class HeroAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Image.network(
       '$imagePath/standard_medium.jpg',
+      loadingBuilder: (context, child, loadingProgress) {
+        if (loadingProgress == null) return child;
+        return const ShimmerHeroAvatar();
+      },
       errorBuilder: (context, error, stackTrace) {
         return Container(
           height: 100,

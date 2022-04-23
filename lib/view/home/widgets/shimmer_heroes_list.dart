@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:marvel_guide/core/app_colors.dart';
 import 'package:shimmer/shimmer.dart';
 
-class ShimmerList extends StatelessWidget {
-  const ShimmerList({Key? key}) : super(key: key);
+class ShimmerHeroesList extends StatelessWidget {
+  const ShimmerHeroesList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

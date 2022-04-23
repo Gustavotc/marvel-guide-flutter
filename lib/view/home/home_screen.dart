@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:marvel_guide/controller/home_controller.dart';
 import 'package:marvel_guide/repository/home_repository.dart';
 import 'package:marvel_guide/route/route.dart' as route;
-import 'package:marvel_guide/view/home/widgets/list_shimmer.dart';
+import 'package:marvel_guide/view/home/widgets/shimmer_heroes_list.dart';
 import 'package:marvel_guide/view/home/widgets/user_header.dart';
 import 'package:marvel_guide/view/widgets/heroes_list.dart';
 
@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
               logout: _handleLogout,
             ),
             isFirstLoading
-                ? const ShimmerList()
+                ? const ShimmerHeroesList()
                 : Flexible(
                     child: HeroesList(
                       animation: controller,

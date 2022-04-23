@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marvel_guide/repository/comics_repository.dart';
+import 'package:marvel_guide/view/comics/widgets/shimmer_comics_list.dart';
 import 'package:marvel_guide/view/home/widgets/comic_card.dart';
 import 'package:marvel_guide/view/home/widgets/custom_progress_indicator.dart';
 
@@ -16,7 +17,8 @@ class _ComicsScreenState extends State<ComicsScreen> {
   late ComicsController controller;
   late ScrollController _scrollController;
 
-  final loading = ValueNotifier(true);
+  final isLoading = ValueNotifier(true);
+  bool _isFirstLoading = true;
   bool _noMoreResults = false;
 
   @override
@@ -30,7 +32,7 @@ class _ComicsScreenState extends State<ComicsScreen> {
 
   _fetchComics() async {
     if (!_noMoreResults) {
-      loading.value = true;
+      isLoading.value = true;
       if (!await controller.fetchComics()) {
         const snackBar = SnackBar(
           content: Text('Não há mais resultados'),
@@ -40,7 +42,13 @@ class _ComicsScreenState extends State<ComicsScreen> {
           _noMoreResults = true;
         });
       }
-      loading.value = false;
+      isLoading.value = false;
+
+      if (_isFirstLoading) {
+        setState(() {
+          _isFirstLoading = false;
+        });
+      }
     }
   }
 
@@ -65,26 +73,29 @@ class _ComicsScreenState extends State<ComicsScreen> {
               return Stack(
                 alignment: Alignment.center,
                 children: [
-                  (controller.comics.isEmpty)
-                      ? Container()
-                      : GridView.builder(
-                          controller: _scrollController,
-                          itemCount: controller.comics.length,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            childAspectRatio: 9 / 16,
-                            crossAxisCount: 3,
-                            mainAxisSpacing: 16,
-                            crossAxisSpacing: 8,
-                          ),
-                          itemBuilder: (context, index) {
-                            final comic = controller.comics[index];
-                            return ComicCard(
-                                title: comic.title, imagePath: comic.imageUrl);
-                          },
-                        ),
+                  _isFirstLoading
+                      ? const ShimmerCommicsList()
+                      : (controller.comics.isEmpty)
+                          ? Container()
+                          : GridView.builder(
+                              controller: _scrollController,
+                              itemCount: controller.comics.length,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                childAspectRatio: 9 / 16,
+                                crossAxisCount: 3,
+                                mainAxisSpacing: 16,
+                                crossAxisSpacing: 8,
+                              ),
+                              itemBuilder: (context, index) {
+                                final comic = controller.comics[index];
+                                return ComicCard(
+                                    title: comic.title,
+                                    imagePath: comic.imageUrl);
+                              },
+                            ),
                   CustomProgressIndicator(
-                    loading: loading,
+                    loading: isLoading,
                   )
                 ],
               );
