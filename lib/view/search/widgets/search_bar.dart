@@ -5,7 +5,7 @@ import 'package:marvel_guide/core/app_colors.dart';
 import '../../../utils/debouncer.dart';
 
 class SearchBar extends StatelessWidget {
-  final dynamic Function(String) searchFn;
+  final Function(String) searchFn;
 
   const SearchBar({
     Key? key,

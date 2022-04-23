@@ -13,11 +13,22 @@ class SearchController with ChangeNotifier {
 
   List<HeroModel> heroes = [];
 
-   Future<void> fetchHeroes(String name) async {
+  Future<bool> fetchHeroes(String name) async {
     var heroesJson = await repository.doSearch(name);
-    for (var hero in heroesJson) {
-      heroes.add(HeroModel.fromMap(hero));
+
+    if (heroesJson != null) {
+      for (var hero in heroesJson) {
+        heroes.add(HeroModel.fromMap(hero));
+      }
+      notifyListeners();
+      return true;
     }
+    return false;
+  }
+
+  resetSearch() {
+    heroes.clear();
+    repository.resetValues();
     notifyListeners();
   }
 }

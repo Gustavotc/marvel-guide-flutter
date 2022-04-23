@@ -18,6 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final loading = ValueNotifier(true);
   String _username = '';
+  bool _noMoreResults = false;
 
   _fetchUsername() async {
     String name = await controller.getUserName();
@@ -33,9 +34,19 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   _fetchHeroes() async {
-    loading.value = true;
-    await controller.fetchHeroes();
-    loading.value = false;
+    if (!_noMoreResults) {
+      loading.value = true;
+      if (!await controller.fetchHeroes()) {
+        const snackBar = SnackBar(
+          content: Text('Não há mais resultados'),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        setState(() {
+          _noMoreResults = true;
+        });
+      }
+      loading.value = false;
+    }
   }
 
   _handleInfiniteScrolling() {

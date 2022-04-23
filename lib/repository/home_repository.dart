@@ -32,10 +32,15 @@ class HomeRepository {
     }
   }
 
-  Future<List<dynamic>> fetchHeroes() async {
+  Future<List<dynamic>?> fetchHeroes() async {
+    if (totalHeroes == 0 || totalHeroes > fetchedHeroes) {
       var data = await api.getHeroes(offset: fetchedHeroes);
-      totalHeroes = data['total'];
-      fetchedHeroes += data['count'] as int;
-      return data['results'] as List<dynamic>;
+      if (data != null) {
+        totalHeroes = data['total'];
+        fetchedHeroes += data['count'] as int;
+        return data['results'];
+      }
+    }
+    return null;
   }
 }

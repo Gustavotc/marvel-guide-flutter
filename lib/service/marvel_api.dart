@@ -21,6 +21,7 @@ class MarvelApi {
       'apikey': publicKey,
       'hash': md5,
       'offset': offset.toString(),
+      'limit': '50',
     };
 
     if (name != null) {
@@ -37,10 +38,10 @@ class MarvelApi {
         return decodedJson['data'];
       }
     } catch (e) {
-      return []; // RETORNAR NULL
+      return null; // RETORNAR NULL
     }
 
-    return [];
+    return null;
   }
 
   Future<dynamic> getComics({offset = 0}) async {
@@ -53,7 +54,8 @@ class MarvelApi {
       'apikey': publicKey,
       'hash': md5,
       'offset': offset.toString(),
-      'limit': 21.toString(),
+      'limit': '42',
+      'orderBy': '-focDate',
     };
 
     var endpoint = Uri.https(baseUrl, '/v1/public/comics', params);
@@ -65,9 +67,9 @@ class MarvelApi {
         return decodedJson['data'];
       }
     } catch (e) {
-      return []; // RETORNAR NULL
+      return null;
     }
 
-    return [];
+    return null;
   }
 }

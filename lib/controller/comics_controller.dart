@@ -11,12 +11,15 @@ class ComicsController with ChangeNotifier {
 
   ComicsController({required this.repository});
 
-  Future<void> fetchComics() async {
-   var comicJson = await repository.fetchComics();
-    for (var comic in comicJson) {
-      comics.add(ComicModel.fromMap(comic));
+  Future<bool> fetchComics() async {
+    var comicsJson = await repository.fetchComics();
+    if (comicsJson != null) {
+      for (var comic in comicsJson) {
+        comics.add(ComicModel.fromMap(comic));
+      }
+      notifyListeners();
+      return true;
     }
-
-    notifyListeners();
+    return false;
   }
 }

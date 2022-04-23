@@ -17,6 +17,7 @@ class _ComicsScreenState extends State<ComicsScreen> {
   late ScrollController _scrollController;
 
   final loading = ValueNotifier(true);
+  bool _noMoreResults = false;
 
   @override
   void initState() {
@@ -28,9 +29,19 @@ class _ComicsScreenState extends State<ComicsScreen> {
   }
 
   _fetchComics() async {
-    loading.value = true;
-    await controller.fetchComics();
-    loading.value = false;
+    if (!_noMoreResults) {
+      loading.value = true;
+      if (!await controller.fetchComics()) {
+        const snackBar = SnackBar(
+          content: Text('Não há mais resultados'),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        setState(() {
+          _noMoreResults = true;
+        });
+      }
+      loading.value = false;
+    }
   }
 
   _handleInfiniteScrolling() {

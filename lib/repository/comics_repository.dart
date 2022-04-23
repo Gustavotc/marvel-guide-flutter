@@ -6,10 +6,15 @@ class ComicsRepository {
   int fetchedComics = 0;
   int totalComics = 0;
 
-  Future<List<dynamic>> fetchComics() async {
-    var data = await api.getComics(offset: fetchedComics);
-    totalComics = data['total'];
-    fetchedComics += data['count'] as int;
-    return data['results'] as List<dynamic>;
+  Future<List<dynamic>?> fetchComics() async {
+    if (fetchedComics == 0 || totalComics > fetchedComics) {
+      var data = await api.getComics(offset: fetchedComics);
+      if (data != null) {
+        totalComics = data['total'];
+        fetchedComics += data['count'] as int;
+        return data['results'] as List<dynamic>;
+      }
+    }
+    return null;
   }
 }

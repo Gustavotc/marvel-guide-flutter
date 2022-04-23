@@ -4,7 +4,6 @@ import 'package:marvel_guide/view/search/widgets/search_bar.dart';
 import 'package:marvel_guide/view/widgets/heroes_list.dart';
 
 import '../../controller/search_controller.dart';
-import '../../model/hero_model.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -14,20 +13,31 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  List<HeroModel> heroesResult = [];
   late SearchController controller;
   late ScrollController _scrollController;
 
   final loading = ValueNotifier(false);
   String searchValue = '';
+  bool _noMoreResults = false;
 
   _fetchHero(String name) async {
-    setState(() {
+    if (searchValue != name) {
       searchValue = name;
-    });
-    loading.value = true;
-    await controller.fetchHeroes(name);
-    loading.value = false;
+      controller.resetSearch();
+      _noMoreResults = false;
+    }
+
+    if (!_noMoreResults) {
+      loading.value = true;
+      if (!await controller.fetchHeroes(name)) {
+        const snackBar = SnackBar(
+          content: Text('Não há mais resultados'),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        _noMoreResults = true;
+      }
+      loading.value = false;
+    }
   }
 
   _handleInfiniteScrolling() {
@@ -59,11 +69,14 @@ class _SearchScreenState extends State<SearchScreen> {
               searchFn: _fetchHero,
             ),
             Expanded(
-              child: HeroesList(
-                animation: controller,
-                scrollController: _scrollController,
-                loading: loading,
-                heroes: controller.heroes,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: HeroesList(
+                  animation: controller,
+                  scrollController: _scrollController,
+                  loading: loading,
+                  heroes: controller.heroes,
+                ),
               ),
             ),
           ],

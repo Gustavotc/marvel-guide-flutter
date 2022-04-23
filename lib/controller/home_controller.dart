@@ -29,12 +29,16 @@ class HomeController with ChangeNotifier {
     }
   }
 
-  Future<void> fetchHeroes() async {
+  Future<bool> fetchHeroes() async {
     var heroesJson = await repository.fetchHeroes();
 
-    for (var hero in heroesJson) {
-      heroes.add(HeroModel.fromMap(hero));
+    if (heroesJson != null) {
+      for (var hero in heroesJson) {
+        heroes.add(HeroModel.fromMap(hero));
+      }
+      notifyListeners();
+      return true;
     }
-    notifyListeners();
+    return false;
   }
 }
