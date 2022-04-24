@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:marvel_guide/repository/search_repository.dart';
-import 'package:marvel_guide/view/home/widgets/shimmer_heroes_list.dart';
+import 'package:marvel_guide/view/search/widgets/empty_search_value.dart';
+import 'package:marvel_guide/view/search/widgets/no_result.dart';
 import 'package:marvel_guide/view/search/widgets/search_bar.dart';
+import 'package:marvel_guide/view/search/widgets/searching_hero.dart';
 import 'package:marvel_guide/view/widgets/heroes_list.dart';
 
 import '../../controller/search_controller.dart';
@@ -20,7 +22,7 @@ class _SearchScreenState extends State<SearchScreen> {
   final _isLoading = ValueNotifier(false);
   String searchValue = '';
   bool _noMoreResults = false;
-  bool _showShimmerLoading = false;
+  bool _showFirstLoading = false;
   bool _noResults = false;
 
   _fetchHero(String name) async {
@@ -29,7 +31,7 @@ class _SearchScreenState extends State<SearchScreen> {
       controller.resetSearch();
       _noMoreResults = false;
       setState(() {
-        _showShimmerLoading = true;
+        _showFirstLoading = true;
         _noResults = false;
       });
     }
@@ -49,12 +51,11 @@ class _SearchScreenState extends State<SearchScreen> {
         setState(() {
           _noResults = true;
         });
-        print('SEM RESULTADOS');
       }
     }
     _isLoading.value = false;
     setState(() {
-      _showShimmerLoading = false;
+      _showFirstLoading = false;
     });
   }
 
@@ -86,21 +87,23 @@ class _SearchScreenState extends State<SearchScreen> {
             SearchBar(
               searchFn: _fetchHero,
             ),
-            _noResults
-                ? const Expanded(child: Center(child: Text('Sem resultados')))
-                : _showShimmerLoading
-                    ? const ShimmerHeroesList()
-                    : Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: HeroesList(
-                            animation: controller,
-                            scrollController: _scrollController,
-                            loading: _isLoading,
-                            heroes: controller.heroes,
+            searchValue == ''
+                ? const EmptySearchValue()
+                : _noResults
+                    ? const NoResult()
+                    : _showFirstLoading
+                        ? const SearchingHero()
+                        : Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: HeroesList(
+                                animation: controller,
+                                scrollController: _scrollController,
+                                loading: _isLoading,
+                                heroes: controller.heroes,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
           ],
         ),
       ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:marvel_guide/core/app_colors.dart';
 import 'package:marvel_guide/view/home/widgets/shimmer_hero_avatar.dart';
 
 class HeroAvatar extends StatelessWidget {

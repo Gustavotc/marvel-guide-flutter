@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marvel_guide/view/about/widgets/shimmer_avatar.dart';
 
-import '../../../core/app_colors.dart';
-
 class Avatar extends StatelessWidget {
   const Avatar({
     Key? key,
