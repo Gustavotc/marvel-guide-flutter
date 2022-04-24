@@ -28,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   _loginSucces(String userName) {
-    Navigator.popAndPushNamed(context, route.home);
+    Navigator.pushNamedAndRemoveUntil(context, route.home, (_) => false);
   }
 
   _loginError() {

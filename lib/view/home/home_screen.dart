@@ -86,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             UserHeader(
               username: _username,
-              logout: _handleLogout,
+              logout: _showLogoutAlert,
             ),
             isFirstLoading
                 ? const ShimmerHeroesList()
@@ -100,6 +100,26 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
           ],
         ),
+      ),
+    );
+  }
+
+  _showLogoutAlert() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Confirmar logout'),
+        content: const Text('Deseja finalizar a sessão atual?'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Cancel'),
+            child: const Text('Cancelar'),
+          ),
+          TextButton(
+            onPressed: _handleLogout,
+            child: const Text('Confirmar'),
+          ),
+        ],
       ),
     );
   }
