@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HeroName extends StatelessWidget {
   final String name;
@@ -11,7 +12,8 @@ class HeroName extends StatelessWidget {
       child: FittedBox(
         child: Text(
           name,
-          style: Theme.of(context).textTheme.bodyLarge,
+          style: GoogleFonts.marvel(
+              textStyle: Theme.of(context).textTheme.bodyLarge),
         ),
       ),
     );

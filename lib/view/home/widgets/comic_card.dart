@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ComicCard extends StatelessWidget {
   final String title;
@@ -22,10 +23,11 @@ class ComicCard extends StatelessWidget {
           )),
           Text(
             title,
-            textAlign: TextAlign.justify,
+            textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
-            style: Theme.of(context).textTheme.bodySmall,
+            style: GoogleFonts.marvel(
+                textStyle: Theme.of(context).textTheme.bodySmall),
           ),
         ],
       ),
