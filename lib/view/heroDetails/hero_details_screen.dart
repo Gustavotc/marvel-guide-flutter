@@ -50,11 +50,11 @@ class _HeroDetailsScreenState extends State<HeroDetailsScreen> {
               height: 430,
               child: Stack(
                 children: [
-                  HeroDetailImage(
+                  DetailImage(
                     id: widget.hero.id,
                     imageUrl: widget.hero.imageUrl,
                   ),
-                  DetailHeroName(
+                  DetailTitle(
                     name: widget.hero.name,
                   ),
                 ],
@@ -76,8 +76,7 @@ class _HeroDetailsScreenState extends State<HeroDetailsScreen> {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ComicCard(
-                            title: _controller.comicsList[index].title,
-                            imagePath: _controller.comicsList[index].imageUrl,
+                            comic: _controller.comicsList[index],
                           ),
                         );
                       },

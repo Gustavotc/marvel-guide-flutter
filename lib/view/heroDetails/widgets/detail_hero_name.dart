@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marvel_guide/core/app_colors.dart';
 
-class DetailHeroName extends StatelessWidget {
+class DetailTitle extends StatelessWidget {
   final String name;
 
-  const DetailHeroName({Key? key, required this.name}) : super(key: key);
+  const DetailTitle({Key? key, required this.name}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

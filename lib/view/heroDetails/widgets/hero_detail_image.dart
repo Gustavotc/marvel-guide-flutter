@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:marvel_guide/view/heroDetails/widgets/shimmer_hero_image.dart';
 
-class HeroDetailImage extends StatelessWidget {
+class DetailImage extends StatelessWidget {
   final int id;
   final String imageUrl;
 
-  const HeroDetailImage({Key? key, required this.id, required this.imageUrl})
+  const DetailImage({Key? key, required this.id, required this.imageUrl})
       : super(key: key);
 
   @override

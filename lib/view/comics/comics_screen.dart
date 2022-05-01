@@ -90,8 +90,8 @@ class _ComicsScreenState extends State<ComicsScreen> {
                               itemBuilder: (context, index) {
                                 final comic = controller.comics[index];
                                 return ComicCard(
-                                    title: comic.title,
-                                    imagePath: comic.imageUrl);
+                                  comic: comic,
+                                );
                               },
                             ),
                   CustomProgressIndicator(
