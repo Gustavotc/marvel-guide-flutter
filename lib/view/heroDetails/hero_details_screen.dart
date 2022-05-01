@@ -4,8 +4,6 @@ import 'package:marvel_guide/view/heroDetails/widgets/detail_hero_descpription.d
 import 'package:marvel_guide/view/heroDetails/widgets/detail_hero_name.dart';
 import 'package:marvel_guide/view/heroDetails/widgets/hero_detail_image.dart';
 
-import '../home/widgets/shimmer_hero_avatar.dart';
-
 class HeroDetailsScreen extends StatelessWidget {
   final HeroModel hero;
   const HeroDetailsScreen({Key? key, required this.hero}) : super(key: key);
