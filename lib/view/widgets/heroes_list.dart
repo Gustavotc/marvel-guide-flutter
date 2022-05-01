@@ -33,9 +33,7 @@ class HeroesList extends StatelessWidget {
               itemBuilder: (context, index) {
                 final hero = heroes[index];
                 return HeroCard(
-                  name: hero.name,
-                  description: hero.description,
-                  imagePath: hero.imageUrl,
+                  hero: hero,
                 );
               },
             ),

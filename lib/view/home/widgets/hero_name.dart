@@ -9,11 +9,14 @@ class HeroName extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
-      child: FittedBox(
-        child: Text(
-          name,
-          style: GoogleFonts.marvel(
-              textStyle: Theme.of(context).textTheme.bodyLarge),
+      child: Hero(
+        tag: name,
+        child: FittedBox(
+          child: Text(
+            name,
+            style: GoogleFonts.marvel(
+                textStyle: Theme.of(context).textTheme.bodyLarge),
+          ),
         ),
       ),
     );

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:marvel_guide/model/hero_model.dart';
 import 'package:marvel_guide/view/about/about_screen.dart';
 import 'package:marvel_guide/view/content/content_screen.dart';
+import 'package:marvel_guide/view/heroDetails/hero_details_screen.dart';
 import 'package:marvel_guide/view/login/login_screen.dart';
 import 'package:marvel_guide/view/signup/signup_screen.dart';
 import 'package:marvel_guide/view/splash/splash_screen.dart';
@@ -10,20 +12,25 @@ const String login = 'LoginScreen';
 const String signup = 'SignupScreen';
 const String about = 'AboutScreen';
 const String home = 'HomeScreen';
+const String heroDetails = 'HeroDetails';
 
 Route<dynamic> controller(RouteSettings settings) {
   switch (settings.name) {
-    case splash: 
+    case splash:
       return MaterialPageRoute(builder: (context) => const SplashScreen());
-    case login: 
+    case login:
       return MaterialPageRoute(builder: (context) => const LoginScreen());
-    case signup: 
+    case signup:
       return MaterialPageRoute(builder: (context) => const SignupScreen());
-    case home: 
+    case home:
       return MaterialPageRoute(builder: (context) => const ContentScreen());
-    case about: 
+    case about:
       return MaterialPageRoute(builder: (context) => const AboutScreen());
-    default: throw('Rota inexistente');
+    case heroDetails:
+      return MaterialPageRoute(
+          builder: (context) =>
+              HeroDetailsScreen(hero: settings.arguments as HeroModel));
+    default:
+      throw ('Rota inexistente');
   }
-
 }
