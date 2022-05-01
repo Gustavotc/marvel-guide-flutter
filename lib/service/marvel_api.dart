@@ -72,4 +72,33 @@ class MarvelApi {
 
     return null;
   }
+
+  Future<dynamic> getHeroComics(int id, {offset = 0}) async {
+    String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+    String rawParams = timestamp + privateKey + publicKey;
+    String md5 = Converter.textToMd5(rawParams);
+
+    var params = {
+      'ts': timestamp,
+      'apikey': publicKey,
+      'hash': md5,
+      'offset': offset.toString(),
+      'orderBy': '-focDate',
+    };
+
+    var endpoint =
+        Uri.https(baseUrl, '/v1/public/characters/$id/comics', params);
+
+    try {
+      var response = await client.get(endpoint);
+      if (response.statusCode == 200) {
+        var decodedJson = json.decode(response.body);
+        return decodedJson['data'];
+      }
+    } catch (e) {
+      return null;
+    }
+
+    return null;
+  }
 }

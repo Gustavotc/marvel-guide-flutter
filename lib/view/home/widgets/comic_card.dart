@@ -11,16 +11,18 @@ class ComicCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 100,
       decoration: const BoxDecoration(
         color: Colors.black54,
       ),
       child: Column(
         children: <Widget>[
           Expanded(
-              child: Image.network(
-            '$imagePath/portrait_xlarge.jpg',
-            fit: BoxFit.cover,
-          )),
+            child: Image.network(
+              '$imagePath/portrait_xlarge.jpg',
+              fit: BoxFit.cover,
+            ),
+          ),
           Text(
             title,
             textAlign: TextAlign.center,

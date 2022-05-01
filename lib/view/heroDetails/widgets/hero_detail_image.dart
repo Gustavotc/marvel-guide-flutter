@@ -22,7 +22,13 @@ class HeroDetailImage extends StatelessWidget {
           return const ShimmerHeroImage();
         },
         errorBuilder: (context, exception, stackTrace) {
-          return Text('Your error widget...');
+          return Container(
+            height: 400,
+            color: Colors.black,
+            child: const Center(
+              child: Text('Imagem indisponível'),
+            ),
+          );
         },
       ),
     );
