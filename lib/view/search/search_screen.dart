@@ -75,39 +75,43 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text('Buscar Herói'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              SearchBar(
-                searchFn: _fetchHero,
-              ),
-              searchValue == ''
-                  ? const EmptySearchValue()
-                  : _noResults
-                      ? const NoResult()
-                      : _showFirstLoading
-                          ? const SearchingHero()
-                          : Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 8.0),
-                                child: HeroesList(
-                                  animation: controller,
-                                  scrollController: _scrollController,
-                                  loading: _isLoading,
-                                  heroes: controller.heroes,
-                                ),
+        child: Column(
+          children: <Widget>[
+            SearchBar(
+              searchFn: _fetchHero,
+            ),
+            searchValue == ''
+                ? const EmptySearchValue()
+                : _noResults
+                    ? const NoResult()
+                    : _showFirstLoading
+                        ? const SearchingHero()
+                        : Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: HeroesList(
+                                animation: controller,
+                                scrollController: _scrollController,
+                                loading: _isLoading,
+                                heroes: controller.heroes,
                               ),
                             ),
-            ],
-          ),
+                          ),
+          ],
         ),
       ),
     );

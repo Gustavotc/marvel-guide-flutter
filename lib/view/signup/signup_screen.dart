@@ -6,6 +6,7 @@ import '../../core/app_colors.dart';
 import '../../core/app_images.dart';
 import '../widgets/custom_text_field.dart';
 import '../widgets/rounded_button.dart';
+import 'package:marvel_guide/route/route.dart' as route;
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -25,11 +26,12 @@ class _SignupScreenState extends State<SignupScreen> {
     controller = SignupController(repository: SignupRepository());
   }
 
-  _loginSucces() {
+  _signupSuccess() {
     const snackBar = SnackBar(
       content: Text('Cadastro realizado com sucesso'),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    Navigator.pushNamedAndRemoveUntil(context, route.home, (_) => false);
   }
 
   _loginError() {
@@ -44,7 +46,7 @@ class _SignupScreenState extends State<SignupScreen> {
       isLoading = true;
     });
     if (controller.register()) {
-      _loginSucces();
+      _signupSuccess();
     } else {
       _loginError();
     }

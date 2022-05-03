@@ -30,6 +30,13 @@ class _ComicsScreenState extends State<ComicsScreen> {
     controller.scrollController.addListener(_handleInfiniteScrolling);
   }
 
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    controller.dispose();
+    super.dispose();
+  }
+
   _fetchComics() async {
     if (!_noMoreResults) {
       isLoading.value = true;
