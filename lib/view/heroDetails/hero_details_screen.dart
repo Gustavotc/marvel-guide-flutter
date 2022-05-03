@@ -43,47 +43,49 @@ class _HeroDetailsScreenState extends State<HeroDetailsScreen> {
       appBar: AppBar(
         title: Text(widget.hero.name),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 430,
-              child: Stack(
-                children: [
-                  DetailImage(
-                    id: widget.hero.id,
-                    imageUrl: widget.hero.imageUrl,
-                  ),
-                  DetailTitle(
-                    name: widget.hero.name,
-                  ),
-                ],
-              ),
-            ),
-            DetailHeroDescription(text: widget.hero.description),
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text('Últimas aparições em quadrinhos:'),
-            ),
-            isLoading
-                ? const ShimmerHeroComics()
-                : SizedBox(
-                    height: 200,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: _controller.comicsList.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ComicCard(
-                            comic: _controller.comicsList[index],
-                          ),
-                        );
-                      },
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 430,
+                child: Stack(
+                  children: [
+                    DetailImage(
+                      id: widget.hero.id,
+                      imageUrl: widget.hero.imageUrl,
                     ),
-                  ),
-            const SizedBox(height: 16)
-          ],
+                    DetailTitle(
+                      name: widget.hero.name,
+                    ),
+                  ],
+                ),
+              ),
+              DetailHeroDescription(text: widget.hero.description),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text('Últimas aparições em quadrinhos:'),
+              ),
+              isLoading
+                  ? const ShimmerHeroComics()
+                  : SizedBox(
+                      height: 200,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: _controller.comicsList.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ComicCard(
+                              comic: _controller.comicsList[index],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+              const SizedBox(height: 8)
+            ],
+          ),
         ),
       ),
     );

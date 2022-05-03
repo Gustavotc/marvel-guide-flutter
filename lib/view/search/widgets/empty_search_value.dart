@@ -29,6 +29,7 @@ class _EmptySearchValueState extends State<EmptySearchValue>
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Lottie.asset(
           AppImages.drStrangeGif,

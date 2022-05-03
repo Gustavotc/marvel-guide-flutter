@@ -13,7 +13,7 @@ class HeroDescription extends StatelessWidget {
       style:
           GoogleFonts.marvel(textStyle: Theme.of(context).textTheme.bodySmall),
       textAlign: TextAlign.justify,
-      maxLines: 3,
+      maxLines: 2,
       overflow: TextOverflow.ellipsis,
     );
   }
