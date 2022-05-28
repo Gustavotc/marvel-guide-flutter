@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "125257675483",
+    "project_id": "marvel-guide-34795",
+    "storage_bucket": "marvel-guide-34795.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:125257675483:android:66dc30ffed35f7022052fe",
+        "android_client_info": {
+          "package_name": "com.example.marvel_guide"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "125257675483-e46t3pt97cdev9cfauov53tdikbo3v9q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCY-cq9ndv2HamImZTb8HRVL5m4F5T4s40"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "125257675483-e46t3pt97cdev9cfauov53tdikbo3v9q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "125257675483-9bkn5sjkfm1kv1a140574fr4qp4nn6kq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.marvelGuide"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
