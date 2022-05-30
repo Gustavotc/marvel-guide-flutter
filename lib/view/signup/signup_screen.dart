@@ -34,9 +34,9 @@ class _SignupScreenState extends State<SignupScreen> {
     Navigator.pushNamedAndRemoveUntil(context, route.home, (_) => false);
   }
 
-  _loginError() {
-    const snackBar = SnackBar(
-      content: Text('Dados inválidos'),
+  _loginError(String message) {
+    var snackBar = SnackBar(
+      content: Text(message),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
@@ -45,10 +45,11 @@ class _SignupScreenState extends State<SignupScreen> {
     setState(() {
       isLoading = true;
     });
-    if (controller.register()) {
+    var response = await controller.register();
+    if (response == null) {
       _signupSuccess();
     } else {
-      _loginError();
+      _loginError(response);
     }
     setState(() {
       isLoading = false;

@@ -18,8 +18,8 @@ class _SplashScreenState extends State<SplashScreen> {
   late SplashController controller;
 
   _showNextScreen() async {
+    await Future.delayed(const Duration(seconds: 1));
     if (await controller.checkLogin()) {
-      await Future.delayed(const Duration(seconds: 1));
       Navigator.popAndPushNamed(context, route.home);
     } else {
       Navigator.popAndPushNamed(context, route.login);

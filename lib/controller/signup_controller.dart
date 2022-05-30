@@ -14,21 +14,21 @@ class SignupController {
 
   UserModel user = UserModel(name: '', email: '', password: '');
 
-  void userName(String? value) => user.name = value! ;
-  void userEmail(String? value) => user.email = value! ;
+  void userName(String? value) => user.name = value!;
+  void userEmail(String? value) => user.email = value!;
   void userPassword(String? value) => user.password = value!;
 
-  bool register() {
+  Future<String?> register() async {
     if (!formKey.currentState!.validate()) {
-      return false;
+      return 'Dados Inválidos';
     }
 
     formKey.currentState?.save();
 
     try {
-      return repository.doRegister(user);
-    } catch(e) {
-      return false;
+      return await repository.doRegister(user);
+    } catch (e) {
+      return 'Algo deu errado, tente novamente';
     }
   }
 }

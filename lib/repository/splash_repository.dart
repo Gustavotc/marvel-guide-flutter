@@ -1,13 +1,7 @@
-import 'package:localstorage/localstorage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SplashRepository {
   Future<bool> checkLogin() async {
-    final LocalStorage storage = LocalStorage('marvel_app');
-    try {
-      await storage.ready;
-      return storage.getItem('logged') ?? false;
-    } catch (e) {
-      return false;
-    }
+    return FirebaseAuth.instance.currentUser != null ? true : false;
   }
 }

@@ -4,6 +4,7 @@ class UserModel {
   String name = '';
   String email = '';
   String password = '';
+
   UserModel({
     required this.name,
     required this.email,
@@ -17,13 +18,11 @@ class UserModel {
     userMap['password'] = password;
     return userMap;
   }
- 
 
   Map<String, dynamic> toMap() {
     return {
       'name': name,
       'email': email,
-      'password': password,
     };
   }
 
@@ -31,11 +30,12 @@ class UserModel {
     return UserModel(
       name: map['name'] ?? '',
       email: map['email'] ?? '',
-      password: map['password'] ?? '',
+      password: '',
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory UserModel.fromJson(String source) => UserModel.fromMap(json.decode(source));
+  factory UserModel.fromJson(String source) =>
+      UserModel.fromMap(json.decode(source));
 }
