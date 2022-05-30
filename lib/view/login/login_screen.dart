@@ -3,6 +3,7 @@ import 'package:marvel_guide/controller/login_controller.dart';
 import 'package:marvel_guide/core/app_colors.dart';
 import 'package:marvel_guide/core/app_images.dart';
 import 'package:marvel_guide/repository/login_repository.dart';
+import 'package:marvel_guide/view/login/widgets/no_account_text.dart';
 import 'package:marvel_guide/view/login/widgets/signup_text.dart';
 import 'package:marvel_guide/route/route.dart' as route;
 
@@ -84,6 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Form(
                   key: controller.formKey,
                   child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       CustomTextField(
                         label: 'email',
@@ -103,11 +105,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPress: _handleSignIn,
                         isLoading: isLoading,
                       ),
-                      const SizedBox(height: 16),
-                      const SignUpText()
                     ],
                   ),
                 ),
+                const SignUpText(),
+                const NoAccountText(),
               ],
             ),
           ),

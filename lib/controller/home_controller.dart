@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import '../model/hero_model.dart';
@@ -22,11 +24,14 @@ class HomeController with ChangeNotifier {
   }
 
   Future<bool> logout() async {
-    try {
-      return await repository.doLogout();
-    } catch (e) {
-      return false;
+    if (FirebaseAuth.instance.currentUser != null) {
+      try {
+        return await repository.doLogout();
+      } catch (e) {
+        return false;
+      }
     }
+    return true;
   }
 
   Future<bool> fetchHeroes() async {
