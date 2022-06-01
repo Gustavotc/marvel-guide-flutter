@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:marvel_guide/model/favorite_model.dart';
 import 'package:marvel_guide/model/user_model.dart';
 
 class FirebaseService {
@@ -46,6 +47,23 @@ class FirebaseService {
       }
     }
     return null;
+  }
+
+  static Future<bool> saveFavorite(int id, {bool isHero = true}) async {
+    String? userId = _auth.currentUser?.uid;
+
+    if (userId == null) return false;
+
+    String refName = isHero ? 'heroes' : 'comics';
+
+    CollectionReference ref = _db.collection('favorites/$userId/$refName');
+
+    try {
+      await ref.add(FavoriteModel(id).toMap());
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   static signOutUser() async {

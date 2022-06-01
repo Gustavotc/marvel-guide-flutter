@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:marvel_guide/controller/hero_details_controller.dart';
 import 'package:marvel_guide/model/hero_model.dart';
 import 'package:marvel_guide/repository/hero_details_repository.dart';
+import 'package:marvel_guide/view/heroDetails/widgets/detail_favorite.dart';
 import 'package:marvel_guide/view/heroDetails/widgets/detail_hero_descpription.dart';
 import 'package:marvel_guide/view/heroDetails/widgets/detail_hero_name.dart';
 import 'package:marvel_guide/view/heroDetails/widgets/hero_detail_image.dart';
@@ -58,6 +59,10 @@ class _HeroDetailsScreenState extends State<HeroDetailsScreen> {
                     DetailTitle(
                       name: widget.hero.name,
                     ),
+                    DetailFavorite(
+                      id: widget.hero.id,
+                      isFavorite: false,
+                    ),
                   ],
                 ),
               ),
@@ -83,7 +88,7 @@ class _HeroDetailsScreenState extends State<HeroDetailsScreen> {
                         },
                       ),
                     ),
-              const SizedBox(height: 8)
+              const SizedBox(height: 8),
             ],
           ),
         ),
