@@ -10,6 +10,7 @@ class ComicsController with ChangeNotifier {
   List<ComicModel> comics = [];
 
   ComicsController({required this.repository});
+  List<int>? favorites;
 
   Future<bool> fetchComics() async {
     var comicsJson = await repository.fetchComics();

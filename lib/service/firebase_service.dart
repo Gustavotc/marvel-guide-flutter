@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:marvel_guide/model/favorite_model.dart';
 import 'package:marvel_guide/model/user_model.dart';
+import 'package:marvel_guide/store/favorites_store.dart';
 
 class FirebaseService {
   static final _db = FirebaseFirestore.instance;
@@ -54,16 +55,53 @@ class FirebaseService {
 
     if (userId == null) return false;
 
-    String refName = isHero ? 'heroes' : 'comics';
+    FavoriteModel? favorites = FavoritesStore.instance.favorites;
 
-    CollectionReference ref = _db.collection('favorites/$userId/$refName');
+    if (isHero) {
+      if (favorites?.heroes != null) {
+        favorites!.heroes!.contains(id)
+            ? favorites.heroes!.remove(id)
+            : favorites.heroes!.add(id);
+      }
+    } else {
+      if (favorites?.comics != null) {
+        favorites!.comics!.contains(id)
+            ? favorites.comics!.remove(id)
+            : favorites.comics!.add(id);
+      }
+    }
+
+    CollectionReference ref = _db.collection('favorites');
 
     try {
-      await ref.add(FavoriteModel(id).toMap());
+      isHero
+          ? await ref.doc(userId).update({'heroes': favorites?.heroes})
+          : await ref.doc(userId).update({'comics': favorites?.comics});
       return true;
     } catch (e) {
       return false;
     }
+  }
+
+  static Future<FavoriteModel?> getFavorites() async {
+    String? userId = _auth.currentUser?.uid;
+
+    if (userId == null) return null;
+
+    CollectionReference ref = _db.collection('favorites');
+
+    try {
+      DocumentSnapshot heroesSnapshot = await ref.doc(userId).get();
+      if (heroesSnapshot.exists) {
+        Map<String, dynamic> response =
+            heroesSnapshot.data() as Map<String, dynamic>;
+
+        return FavoriteModel.fromMap(response);
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
   }
 
   static signOutUser() async {

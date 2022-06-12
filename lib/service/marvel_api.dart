@@ -38,7 +38,7 @@ class MarvelApi {
         return decodedJson['data'];
       }
     } catch (e) {
-      return null; // RETORNAR NULL
+      return null;
     }
 
     return null;
@@ -100,5 +100,36 @@ class MarvelApi {
     }
 
     return null;
+  }
+
+  Future<dynamic> getItemsById(List<int> ids,
+      {String path = 'characters'}) async {
+    String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+    String rawParams = timestamp + privateKey + publicKey;
+    String md5 = Converter.textToMd5(rawParams);
+
+    var params = {
+      'ts': timestamp,
+      'apikey': publicKey,
+      'hash': md5,
+    };
+
+    var results = [];
+
+    for (var id in ids) {
+      var endpoint = Uri.https(baseUrl, '/v1/public/$path/$id', params);
+
+      try {
+        var response = await client.get(endpoint);
+        if (response.statusCode == 200) {
+          var decodedJson = json.decode(response.body);
+          results.add(decodedJson['data']['results'][0]);
+        }
+      } catch (e) {
+        return null;
+      }
+    }
+
+    return results;
   }
 }

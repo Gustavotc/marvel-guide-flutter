@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:marvel_guide/controller/home_controller.dart';
 import 'package:marvel_guide/repository/home_repository.dart';
 import 'package:marvel_guide/route/route.dart' as route;
+import 'package:marvel_guide/store/favorites_store.dart';
+import 'package:marvel_guide/view/favoritesList/favorites_list.dart';
 import 'package:marvel_guide/view/home/widgets/shimmer_heroes_list.dart';
 import 'package:marvel_guide/view/home/widgets/user_header.dart';
 import 'package:marvel_guide/view/widgets/heroes_list.dart';
@@ -21,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isFirstLoading = true;
   String _username = '';
   bool _noMoreResults = false;
+  bool isFavorites = false;
 
   _fetchUsername() async {
     String name = await controller.getUserName();
@@ -64,6 +67,12 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  _handleFavoritesPress() {
+    setState(() {
+      isFavorites = !isFavorites;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -72,6 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _fetchHeroes();
     _scrollController = controller.scrollController;
     controller.scrollController.addListener(_handleInfiniteScrolling);
+    controller.favoriteHeroesId = FavoritesStore.instance.favorites?.heroes;
   }
 
   @override
@@ -86,6 +96,14 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Heróis'),
+        actions: [
+          IconButton(
+            onPressed: _handleFavoritesPress,
+            icon: Icon(
+              isFavorites ? Icons.favorite : Icons.favorite_border_outlined,
+            ),
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -97,14 +115,18 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             isFirstLoading
                 ? const ShimmerHeroesList()
-                : Flexible(
-                    child: HeroesList(
-                      animation: controller,
-                      scrollController: _scrollController,
-                      loading: isLoading,
-                      heroes: controller.heroes,
-                    ),
-                  ),
+                : isFavorites
+                    ? FavoritesList(
+                        favoritesId: controller.favoriteHeroesId ?? [],
+                      )
+                    : Flexible(
+                        child: HeroesList(
+                          animation: controller,
+                          scrollController: _scrollController,
+                          loading: isLoading,
+                          heroes: controller.heroes,
+                        ),
+                      ),
           ],
         ),
       ),

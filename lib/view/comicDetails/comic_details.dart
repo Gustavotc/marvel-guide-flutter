@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marvel_guide/model/comic_model.dart';
+import 'package:marvel_guide/view/heroDetails/widgets/detail_favorite.dart';
 import 'package:marvel_guide/view/heroDetails/widgets/detail_hero_name.dart';
 import 'package:marvel_guide/view/heroDetails/widgets/hero_detail_image.dart';
 
@@ -27,6 +28,10 @@ class ComicDetailsScreen extends StatelessWidget {
                   DetailTitle(
                     name: comic.title,
                   ),
+                  DetailFavorite(
+                    id: comic.id,
+                    isHero: false,
+                  )
                 ],
               ),
             ),

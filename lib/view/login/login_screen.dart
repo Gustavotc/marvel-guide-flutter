@@ -3,6 +3,8 @@ import 'package:marvel_guide/controller/login_controller.dart';
 import 'package:marvel_guide/core/app_colors.dart';
 import 'package:marvel_guide/core/app_images.dart';
 import 'package:marvel_guide/repository/login_repository.dart';
+import 'package:marvel_guide/service/firebase_service.dart';
+import 'package:marvel_guide/store/favorites_store.dart';
 import 'package:marvel_guide/view/login/widgets/no_account_text.dart';
 import 'package:marvel_guide/view/login/widgets/signup_text.dart';
 import 'package:marvel_guide/route/route.dart' as route;
@@ -28,7 +30,8 @@ class _LoginScreenState extends State<LoginScreen> {
     controller = LoginController(repository: LoginRepository());
   }
 
-  _loginSucces(String userName) {
+  _loginSucces(String userName) async {
+    FavoritesStore.instance.favorites = await FirebaseService.getFavorites();
     Navigator.pushNamedAndRemoveUntil(context, route.home, (_) => false);
   }
 

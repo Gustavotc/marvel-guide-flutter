@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:marvel_guide/repository/splash_repository.dart';
+import 'package:marvel_guide/service/firebase_service.dart';
+import 'package:marvel_guide/store/favorites_store.dart';
 
 import '../../controller/splash_controller.dart';
 import '../../core/app_images.dart';
@@ -20,6 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
   _showNextScreen() async {
     await Future.delayed(const Duration(seconds: 1));
     if (await controller.checkLogin()) {
+      FavoritesStore.instance.favorites = await FirebaseService.getFavorites();
       Navigator.popAndPushNamed(context, route.home);
     } else {
       Navigator.popAndPushNamed(context, route.login);

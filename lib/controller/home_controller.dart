@@ -13,6 +13,7 @@ class HomeController with ChangeNotifier {
   final ScrollController scrollController = ScrollController();
 
   List<HeroModel> heroes = [];
+  List<int>? favoriteHeroesId;
 
   Future<String> getUserName() async {
     try {

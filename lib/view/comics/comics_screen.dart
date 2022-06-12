@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:marvel_guide/repository/comics_repository.dart';
+import 'package:marvel_guide/store/favorites_store.dart';
 import 'package:marvel_guide/view/comics/widgets/shimmer_comics_list.dart';
+import 'package:marvel_guide/view/favoritesList/favorites_list.dart';
 import 'package:marvel_guide/view/home/widgets/comic_card.dart';
 import 'package:marvel_guide/view/home/widgets/custom_progress_indicator.dart';
 
@@ -20,6 +22,7 @@ class _ComicsScreenState extends State<ComicsScreen> {
   final isLoading = ValueNotifier(true);
   bool _isFirstLoading = true;
   bool _noMoreResults = false;
+  bool _isFavorites = false;
 
   @override
   void initState() {
@@ -28,6 +31,7 @@ class _ComicsScreenState extends State<ComicsScreen> {
     _fetchComics();
     _scrollController = controller.scrollController;
     controller.scrollController.addListener(_handleInfiniteScrolling);
+    controller.favorites = FavoritesStore.instance.favorites?.comics;
   }
 
   @override
@@ -66,11 +70,25 @@ class _ComicsScreenState extends State<ComicsScreen> {
     }
   }
 
+  _handleFavoritesPress() {
+    setState(() {
+      _isFavorites = !_isFavorites;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Quadrinhos'),
+        actions: [
+          IconButton(
+            onPressed: _handleFavoritesPress,
+            icon: Icon(
+              _isFavorites ? Icons.favorite : Icons.favorite_border_outlined,
+            ),
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -80,27 +98,32 @@ class _ComicsScreenState extends State<ComicsScreen> {
               return Stack(
                 alignment: Alignment.center,
                 children: [
-                  _isFirstLoading
-                      ? const ShimmerCommicsList()
-                      : (controller.comics.isEmpty)
-                          ? Container()
-                          : GridView.builder(
-                              controller: _scrollController,
-                              itemCount: controller.comics.length,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                childAspectRatio: 9 / 16,
-                                crossAxisCount: 3,
-                                mainAxisSpacing: 16,
-                                crossAxisSpacing: 8,
-                              ),
-                              itemBuilder: (context, index) {
-                                final comic = controller.comics[index];
-                                return ComicCard(
-                                  comic: comic,
-                                );
-                              },
-                            ),
+                  _isFavorites
+                      ? FavoritesList(
+                          favoritesId: controller.favorites ?? [],
+                          isHero: false,
+                        )
+                      : _isFirstLoading
+                          ? const ShimmerCommicsList()
+                          : (controller.comics.isEmpty)
+                              ? Container()
+                              : GridView.builder(
+                                  controller: _scrollController,
+                                  itemCount: controller.comics.length,
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    childAspectRatio: 9 / 16,
+                                    crossAxisCount: 3,
+                                    mainAxisSpacing: 16,
+                                    crossAxisSpacing: 8,
+                                  ),
+                                  itemBuilder: (context, index) {
+                                    final comic = controller.comics[index];
+                                    return ComicCard(
+                                      comic: comic,
+                                    );
+                                  },
+                                ),
                   CustomProgressIndicator(
                     loading: isLoading,
                   )

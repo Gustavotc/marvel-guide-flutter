@@ -61,7 +61,7 @@ class _HeroDetailsScreenState extends State<HeroDetailsScreen> {
                     ),
                     DetailFavorite(
                       id: widget.hero.id,
-                      isFavorite: false,
+                      isHero: true,
                     ),
                   ],
                 ),
