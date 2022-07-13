@@ -13,7 +13,7 @@ class LoginController {
 
   UserModel user = UserModel(name: '', email: '', password: '');
 
-  void userEmail(String? value) => user.email = value! ;
+  void userEmail(String? value) => user.email = value!;
   void userPassword(String? value) => user.password = value!;
 
   Future<String?> login() async {
@@ -25,7 +25,7 @@ class LoginController {
 
     try {
       return await repository.doLogin(user);
-    } catch(e) {
+    } catch (e) {
       return null;
     }
   }

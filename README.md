@@ -12,12 +12,14 @@ A Marvel Heroes and Comics guide, built with Flutter and MarvelAPI to help peopl
 
 ## :hammer_and_wrench: Features
 
+- [ ] Firebase Auth;
+- [ ] Firebase Firestore;
 - [ ] Infinite Scrolling;
 - [ ] Paginated Requests;
+- [ ] Rest API;
 - [ ] Form Validation;
 - [ ] Animations;
 - [ ] Loading Effects;
-- [ ] Authentication with LocalStorage;
 
 ## ✨ Technologies
 
@@ -26,10 +28,12 @@ A Marvel Heroes and Comics guide, built with Flutter and MarvelAPI to help peopl
 - [ ] LocalStorage
 - [ ] Http
 - [ ] MarvelAPI
+- [ ] MVC
 
 ## 🔖 Layout
 
 ![ilustration](.github/ilustration.png?style=flat)
+![ilustration2](.github/ilustration2.png?style=flat)
 
 ## 👨‍💻 Getting started
 
@@ -46,6 +50,15 @@ In order to consume the MarvelAPI, create an account on https://developer.marvel
 // marvel_api.dart
 static final publicKey = YOUR_PUBLIC_KEY;
 static final privateKey = YOUR_PRIVATE_KEY;
+```
+
+Setup a new firebase project with email and password authentication and firestore and paste the config in the config folder.
+
+```dart
+// config/firebase_options.dart
+class DefaultFirebaseOptions {
+  // Your config here  
+}
 ```
 
 ## 📄 Licence
